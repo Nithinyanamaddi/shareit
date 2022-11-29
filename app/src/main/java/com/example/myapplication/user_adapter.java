@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 public class user_adapter extends RecyclerView.Adapter<user_adapter.user_holder> {
@@ -38,7 +40,7 @@ public class user_adapter extends RecyclerView.Adapter<user_adapter.user_holder>
     @Override
     public void onBindViewHolder(@NonNull user_holder holder, int position) {
         holder.txtUserName.setText(users.get(position).getUsername());
-
+        Glide.with(context).load(users.get(position).getProfilePicture()).error(R.drawable.account_image).placeholder(R.drawable.account_image).into(holder.imageview);
     }
 
     @Override
@@ -51,6 +53,12 @@ public class user_adapter extends RecyclerView.Adapter<user_adapter.user_holder>
         ImageView imageview;
         public user_holder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onUserClickListener.onUserClicked(getAdapterPosition());
+                }
+            });
             txtUserName=itemView.findViewById(R.id.textUserName);
             imageview=itemView.findViewById(R.id.img_pro);
         }
